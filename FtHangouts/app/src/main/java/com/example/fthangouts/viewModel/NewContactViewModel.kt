@@ -20,4 +20,12 @@ class NewContactViewModel : ViewModel() {
     fun lastNameChanged(newValue: String) {
         _uiState.update { it.copy(lastName = newValue) }
     }
+
+    fun phoneNumberChanged(newValue: String) {
+        _uiState.update { it.copy(phoneNumber = newValue) }
+    }
+
+    fun noteChanged(newValue: String) {
+        _uiState.update { it.copy(note = newValue) }
+    }
 }
