@@ -7,6 +7,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class ItemNav(val name: String, val icon: ImageVector) {
-    object First: ItemNav("Contacts", Icons.Default.Person)
-    object Second: ItemNav("Messages", Icons.Default.Email)
+    object First: ItemNav("ListContacts", Icons.Default.Person)
+    object Second: ItemNav("FirstMessage", Icons.Default.Email)
 }

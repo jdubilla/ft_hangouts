@@ -20,7 +20,7 @@ fun HostController(paddingValues: PaddingValues, navHostController: NavHostContr
 
     NavHost(
         navController = navHostController,
-        startDestination = ItemNav.First.name,
+        startDestination = ItemNav.Second.name,
         modifier = Modifier.padding(paddingValues)
     ) {
         AppDatas().items.forEach { item ->

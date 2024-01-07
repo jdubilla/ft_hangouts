@@ -70,7 +70,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                         it.getString(it.getColumnIndex(COLUMN_PHONE_NUMBER)),
                         it.getString(it.getColumnIndex(COLUMN_NOTE)),
                         it.getLong(it.getColumnIndex(COLUMN_BIRTH_DATE)),
-                    )
+                        it.getInt(it.getColumnIndex(COLUMN_ID)),
+                        )
                     usersList.add(user)
                 } while (it.moveToNext())
             }

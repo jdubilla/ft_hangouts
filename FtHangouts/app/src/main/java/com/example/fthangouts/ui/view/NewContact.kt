@@ -131,7 +131,8 @@ fun NewContact(dbConnection: DatabaseHelper, vm: NewContactViewModel = viewModel
                 state.lastName,
                 state.phoneNumber,
                 state.note,
-                datePickerState.selectedDateMillis
+                datePickerState.selectedDateMillis,
+                0
             )
             dbConnection.addUser(user)
         }) {
