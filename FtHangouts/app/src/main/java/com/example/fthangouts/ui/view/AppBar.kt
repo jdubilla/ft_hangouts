@@ -17,7 +17,7 @@ import com.example.fthangouts.model.Screens
 @Composable
 fun AppBar(navController: NavController, screens: Screens) {
     TopAppBar(
-        title = { Text(text = if (navController.previousBackStackEntry != null) screens.title else "Titre de base") },
+        title = { Text(text = if (navController.previousBackStackEntry != null) screens.title else "Contacts") },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.primaryContainer

@@ -24,8 +24,8 @@ fun BottomBar(navController: NavController, currentRoute: String?) {
     NavigationBar {
         AppDatas().items.forEach { item ->
             NavigationBarItem(
-                selected = currentRoute == item.name,
-                onClick = { onClick(item.name) },
+                selected = currentRoute == item.route,
+                onClick = { onClick(item.route) },
                 icon = {
                     Icon(
                         imageVector = item.icon,

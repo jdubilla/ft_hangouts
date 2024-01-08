@@ -1,8 +1,11 @@
-package com.example.fthangouts.ui.view
+package com.example.fthangouts.ui.view.newContact
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,13 +20,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -33,12 +37,14 @@ import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.model.User
 import com.example.fthangouts.viewModel.NewContactViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewContact(dbConnection: DatabaseHelper, vm: NewContactViewModel = viewModel()) {
 
     val state by vm.uiState.collectAsState()
     val datePickerState = rememberDatePickerState()
+    var image by remember { mutableStateOf("") }
     val manager = LocalFocusManager.current
 
     Column(
@@ -55,38 +61,44 @@ fun NewContact(dbConnection: DatabaseHelper, vm: NewContactViewModel = viewModel
                 state = rememberScrollState()
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(50.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        OutlinedTextField(
+        Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            value = state.firstName,
-            onValueChange = { newValue ->
-                if (newValue.length <= 20) {
-                    vm.firstNameChanged(newValue)
-                }
-            },
-            label = { Text(text = "First Name") },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
-            ),
-        )
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth(),
-            value = state.lastName,
-            onValueChange = { newValue ->
-                if (newValue.length <= 20) {
-                    vm.lastNameChanged(newValue)
-                }
-            },
-            label = { Text(text = "Last Name") },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
-            ),
-        )
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            PhotoPicker(onImageSelected = { image = it })
+            Column {
+                OutlinedTextField(
+                    value = state.firstName,
+                    onValueChange = { newValue ->
+                        if (newValue.length <= 20) {
+                            vm.firstNameChanged(newValue)
+                        }
+                    },
+                    label = { Text(text = "First Name") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    ),
+                )
+                OutlinedTextField(
+                    value = state.lastName,
+                    onValueChange = { newValue ->
+                        if (newValue.length <= 20) {
+                            vm.lastNameChanged(newValue)
+                        }
+                    },
+                    label = { Text(text = "Last Name") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next
+                    ),
+                )
+            }
+        }
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -131,6 +143,7 @@ fun NewContact(dbConnection: DatabaseHelper, vm: NewContactViewModel = viewModel
                 state.lastName,
                 state.phoneNumber,
                 state.note,
+                if (image == "") null else image,
                 datePickerState.selectedDateMillis,
                 0
             )

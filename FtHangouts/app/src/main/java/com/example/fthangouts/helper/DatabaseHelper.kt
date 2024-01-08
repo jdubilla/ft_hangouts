@@ -22,6 +22,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "$COLUMN_LAST_NAME TEXT," +
                 "$COLUMN_PHONE_NUMBER TEXT," +
                 "$COLUMN_NOTE TEXT," +
+                "$COLUMN_PHOTO TEXT," +
                 "$COLUMN_BIRTH_DATE INTEGER)"
 
         db?.execSQL(createUserTableQuery)
@@ -34,13 +35,14 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "ftHangouts"
-        private const val DATABASE_VERSION = 4
+        private const val DATABASE_VERSION = 10
         private const val TABLE_NAME = "user"
         private const val COLUMN_ID = "id"
         private const val COLUMN_FIRST_NAME = "first_name"
         private const val COLUMN_LAST_NAME = "last_name"
         private const val COLUMN_PHONE_NUMBER = "phone_number"
         private const val COLUMN_NOTE = "note"
+        private const val COLUMN_PHOTO = "photo"
         private const val COLUMN_BIRTH_DATE = "birth_date"
     }
 
@@ -50,6 +52,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             put(COLUMN_LAST_NAME, user.lastName)
             put(COLUMN_PHONE_NUMBER, user.phoneNumber)
             put(COLUMN_NOTE, user.note)
+            put(COLUMN_PHOTO, user.photo)
             put(COLUMN_BIRTH_DATE, user.birthDate)
         }
         database?.insert(TABLE_NAME, null, values)
@@ -69,6 +72,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                         it.getString(it.getColumnIndex(COLUMN_LAST_NAME)),
                         it.getString(it.getColumnIndex(COLUMN_PHONE_NUMBER)),
                         it.getString(it.getColumnIndex(COLUMN_NOTE)),
+                        it.getString(it.getColumnIndex(COLUMN_PHOTO)),
                         it.getLong(it.getColumnIndex(COLUMN_BIRTH_DATE)),
                         it.getInt(it.getColumnIndex(COLUMN_ID)),
                         )

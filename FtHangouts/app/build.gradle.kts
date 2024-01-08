@@ -70,6 +70,9 @@ dependencies {
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
 
+    // ImagePicker
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
     //ROOM
 //    implementation("androidx.room:room-runtime:2.6.1")
 //    annotationProcessor("androidx.room:room-compiler:2.6.1")

@@ -20,12 +20,12 @@ fun HostController(paddingValues: PaddingValues, navHostController: NavHostContr
 
     NavHost(
         navController = navHostController,
-        startDestination = ItemNav.Second.name,
+        startDestination = ItemNav.Second.route,
         modifier = Modifier.padding(paddingValues)
     ) {
         AppDatas().items.forEach { item ->
-            composable(item.name) {
-                NavigateToDestination(itemName = item.name, dbConnection = dbConnection)
+            composable(item.route) {
+                NavigateToDestination(itemName = item.route, dbConnection = dbConnection)
             }
         }
     }

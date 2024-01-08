@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.model.ItemNav
 import com.example.fthangouts.model.Screens
+import com.example.fthangouts.ui.view.newContact.NewContact
 
 @Composable
 fun MainScaffold() {
@@ -22,7 +23,7 @@ fun MainScaffold() {
     val dbConnection = DatabaseHelper(context = context)
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen =
-        Screens.valueOf(backStackEntry?.destination?.route ?: Screens.FirstMessage.title)
+        Screens.valueOf(backStackEntry?.destination?.route ?: Screens.FirstMessage.name)
 
     Scaffold(
         topBar = {
@@ -31,7 +32,7 @@ fun MainScaffold() {
         content = { paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = ItemNav.First.name,
+                startDestination = ItemNav.First.route,
                 modifier = Modifier.padding(paddingValues)
             ) {
                 composable("FirstMessage") {
@@ -46,9 +47,14 @@ fun MainScaffold() {
                     TestMessagesSecond()
                 }
                 composable("ListContacts") {
-                    ListContacts(dbConnection = dbConnection)
+                    ListContacts(
+                        onClick = {
+                            navController.navigate(route = "NewContact")
+                        },
+                        dbConnection = dbConnection
+                    )
                 }
-                composable("Contacts") {
+                composable("NewContact") {
                     NewContact(dbConnection = dbConnection)
                 }
             }
