@@ -13,6 +13,10 @@ class NewContactViewModel : ViewModel() {
 
     var uiState: StateFlow<NewContactState> = _uiState.asStateFlow()
 
+    fun imageChanged(newValue: String) {
+        _uiState.update { it.copy(image = newValue) }
+    }
+
     fun firstNameChanged(newValue: String) {
         _uiState.update { it.copy(firstName = newValue) }
     }
@@ -27,5 +31,9 @@ class NewContactViewModel : ViewModel() {
 
     fun noteChanged(newValue: String) {
         _uiState.update { it.copy(note = newValue) }
+    }
+
+    fun isErrorChanged(newValue: Boolean) {
+        _uiState.update { it.copy(isError = newValue) }
     }
 }

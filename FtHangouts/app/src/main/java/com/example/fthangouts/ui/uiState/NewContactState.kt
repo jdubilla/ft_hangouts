@@ -5,4 +5,6 @@ data class NewContactState(
     val lastName: String = "",
     val phoneNumber: String = "",
     val note: String = "",
+    val image: String = "",
+    val isError: Boolean = false
 )

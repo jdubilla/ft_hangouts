@@ -5,34 +5,24 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.model.User
 import com.example.fthangouts.viewModel.NewContactViewModel
@@ -40,12 +30,15 @@ import com.example.fthangouts.viewModel.NewContactViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewContact(dbConnection: DatabaseHelper, vm: NewContactViewModel = viewModel()) {
+fun NewContact(dbConnection: DatabaseHelper, vm: NewContactViewModel = viewModel(), navController: NavController) {
 
     val state by vm.uiState.collectAsState()
     val datePickerState = rememberDatePickerState()
-    var image by remember { mutableStateOf("") }
     val manager = LocalFocusManager.current
+
+    fun createContactError(): Boolean {
+        return state.firstName.isEmpty() || state.phoneNumber.isEmpty()
+    }
 
     Column(
         modifier = Modifier
@@ -63,98 +56,39 @@ fun NewContact(dbConnection: DatabaseHelper, vm: NewContactViewModel = viewModel
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            PhotoPicker(onImageSelected = { image = it })
-            Column {
-                OutlinedTextField(
-                    value = state.firstName,
-                    onValueChange = { newValue ->
-                        if (newValue.length <= 20) {
-                            vm.firstNameChanged(newValue)
-                        }
-                    },
-                    label = { Text(text = "First Name") },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next
-                    ),
+        GeneralUserInfos(
+            onImageSelected = { vm.imageChanged(it) },
+            firstName = state.firstName,
+            firstNameChanged = { vm.firstNameChanged(it) },
+            lastName = state.lastName,
+            lastNameChanged = { vm.lastNameChanged(it) },
+            isError = state.isError
+        )
+        PhoneNumberInput(
+            phoneNumber = state.phoneNumber,
+            phoneNumberChanged = { vm.phoneNumberChanged(it) },
+            isError = state.isError
+        )
+        NoteInput(note = state.note, noteChanged = { vm.noteChanged(it) }, isError = state.isError)
+        BirthDatePicker(datePickerState = datePickerState)
+        Button(onClick = {
+            if (!createContactError()) {
+                val user = User(
+                    state.firstName,
+                    state.lastName,
+                    state.phoneNumber,
+                    state.note,
+                    state.image,
+                    datePickerState.selectedDateMillis,
+                    0
                 )
-                OutlinedTextField(
-                    value = state.lastName,
-                    onValueChange = { newValue ->
-                        if (newValue.length <= 20) {
-                            vm.lastNameChanged(newValue)
-                        }
-                    },
-                    label = { Text(text = "Last Name") },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next
-                    ),
-                )
+                dbConnection.addUser(user)
+                navController.navigateUp()
+            } else {
+                vm.isErrorChanged(true)
             }
-        }
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth(),
-            value = state.phoneNumber,
-            onValueChange = { newValue ->
-                if (newValue.length <= 20) {
-                    vm.phoneNumberChanged(newValue)
-                }
-            },
-            label = { Text(text = "Phone number") },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Next
-            )
-        )
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth(),
-            value = state.note,
-            onValueChange = { newValue ->
-                if (newValue.length <= 200) {
-                    vm.noteChanged(newValue)
-                }
-            },
-            label = { Text(text = "Note") },
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done
-            ),
-        )
-        DatePicker(
-            state = datePickerState,
-            title = { Text(text = "Birth date") },
-            colors = DatePickerDefaults.colors()
-        )
-        Button(onClick = { println(datePickerState.selectedDateMillis) }) {
-            Text(text = "Test Date")
-        }
-        Button(onClick = {
-            val user = User(
-                state.firstName,
-                state.lastName,
-                state.phoneNumber,
-                state.note,
-                if (image == "") null else image,
-                datePickerState.selectedDateMillis,
-                0
-            )
-            dbConnection.addUser(user)
         }) {
-            Text(text = "Enregistrer")
-        }
-        Button(onClick = {
-            println(dbConnection.getAllUsers())
-        }) {
-            Text(text = "Recuperer les contacts")
+            Text(text = "Create Contact")
         }
     }
 }

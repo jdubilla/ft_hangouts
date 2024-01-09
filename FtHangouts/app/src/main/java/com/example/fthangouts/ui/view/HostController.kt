@@ -1,5 +1,7 @@
 package com.example.fthangouts.ui.view
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -12,21 +14,26 @@ import com.example.fthangouts.data.AppDatas
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.model.ItemNav
 
-@Composable
-fun HostController(paddingValues: PaddingValues, navHostController: NavHostController) {
-
-    val context = LocalContext.current
-    val dbConnection = DatabaseHelper(context = context)
-
-    NavHost(
-        navController = navHostController,
-        startDestination = ItemNav.Second.route,
-        modifier = Modifier.padding(paddingValues)
-    ) {
-        AppDatas().items.forEach { item ->
-            composable(item.route) {
-                NavigateToDestination(itemName = item.route, dbConnection = dbConnection)
-            }
-        }
-    }
-}
+//@RequiresApi(Build.VERSION_CODES.O)
+//@Composable
+//fun HostController(paddingValues: PaddingValues, navHostController: NavHostController) {
+//
+//    val context = LocalContext.current
+//    val dbConnection = DatabaseHelper(context = context)
+//
+//    NavHost(
+//        navController = navHostController,
+//        startDestination = ItemNav.Second.route,
+//        modifier = Modifier.padding(paddingValues)
+//    ) {
+//        AppDatas().items.forEach { item ->
+//            composable(item.route) {
+//                NavigateToDestination(
+//                    itemName = item.route,
+//                    dbConnection = dbConnection,
+//                    navController = navHostController
+//                )
+//            }
+//        }
+//    }
+//}

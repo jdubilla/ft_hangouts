@@ -1,5 +1,7 @@
 package com.example.fthangouts.ui.view
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -15,6 +17,7 @@ import com.example.fthangouts.model.ItemNav
 import com.example.fthangouts.model.Screens
 import com.example.fthangouts.ui.view.newContact.NewContact
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScaffold() {
 
@@ -48,14 +51,15 @@ fun MainScaffold() {
                 }
                 composable("ListContacts") {
                     ListContacts(
-                        onClick = {
+                        onNewContact = {
                             navController.navigate(route = "NewContact")
                         },
-                        dbConnection = dbConnection
+                        dbConnection = dbConnection,
+
                     )
                 }
                 composable("NewContact") {
-                    NewContact(dbConnection = dbConnection)
+                    NewContact(dbConnection = dbConnection, navController = navController)
                 }
             }
         },
