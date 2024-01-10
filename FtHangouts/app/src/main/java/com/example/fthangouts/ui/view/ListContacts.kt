@@ -41,24 +41,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.fthangouts.helper.DatabaseHelper
+import com.example.fthangouts.helper.loadImageFromInternalStorage
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 
 @Composable
-fun ListContacts(onNewContact: () -> Unit, dbConnection: DatabaseHelper) {
+fun ListContacts(onNewContact: () -> Unit, dbConnection: DatabaseHelper, navController: NavController) {
 
     val allContacts = dbConnection.getAllUsers()
     val context = LocalContext.current
-
-    fun loadImageFromInternalStorage(context: Context, fileName: String): Bitmap? {
-        return try {
-            val inputStream: FileInputStream = context.openFileInput(fileName)
-            BitmapFactory.decodeStream(inputStream)
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-            null
-        }
-    }
 
     Box {
         Column(
@@ -66,7 +57,6 @@ fun ListContacts(onNewContact: () -> Unit, dbConnection: DatabaseHelper) {
             modifier = Modifier
                 .padding(5.dp)
                 .fillMaxSize()
-//                .background(Color.Red)
                 .verticalScroll(
                     enabled = true,
                     state = rememberScrollState()
@@ -75,7 +65,10 @@ fun ListContacts(onNewContact: () -> Unit, dbConnection: DatabaseHelper) {
         ) {
             allContacts.forEach { contact ->
                 Surface(
-                    onClick = { println("Ok") }
+                    onClick = {
+                        println(contact.id)
+                        navController.navigate(route = "DetailsContact/${contact.id}")
+                    }
                 ) {
                     ListItem(
                         leadingContent = {

@@ -1,8 +1,10 @@
 package com.example.fthangouts.ui.view.newContact
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -26,15 +28,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.example.fthangouts.helper.loadImageFromInternalStorage
+import com.example.fthangouts.model.User
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PhotoPicker(onImageSelected: (String) -> Unit) {
+fun PhotoPicker(onImageSelected: (String) -> Unit, user: User?) {
     val context = LocalContext.current
     val contract = ActivityResultContracts.GetContent()
     val type = "image/*"
     var imageUri by remember { mutableStateOf<Uri?>(null) }
+    var isReplaced by remember { mutableStateOf(false) }
 
     fun saveImageToInternalStorage(context: Context, uri: Uri, imageName: String) {
         val inputStream = context.contentResolver.openInputStream(uri)
@@ -42,6 +50,36 @@ fun PhotoPicker(onImageSelected: (String) -> Unit) {
         inputStream?.use { input ->
             outputStream.use { output ->
                 input.copyTo(output)
+            }
+        }
+    }
+
+    fun bitmapToUri(context: Context, bitmap: Bitmap): Uri? {
+        val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val date = LocalDateTime.now().toString().replace(Regex("[:.-]"), "")
+        val imageFile = File(imagesDir, "$date.jpg")
+
+        try {
+            val outputStream = FileOutputStream(imageFile)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.flush()
+            outputStream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return null
+        }
+
+        return Uri.fromFile(imageFile)
+    }
+
+    if (user != null && user.photo != "" && !isReplaced) {
+        val bitmapImg = loadImageFromInternalStorage(context, user.photo)
+        if (bitmapImg != null) {
+            val loadedUri = bitmapToUri(context, bitmapImg)
+            if (loadedUri != null) {
+                imageUri = loadedUri
+                println("Ok")
+                isReplaced = true
             }
         }
     }
@@ -77,7 +115,7 @@ fun PhotoPicker(onImageSelected: (String) -> Unit) {
                     model = ImageRequest
                         .Builder(LocalContext.current)
                         .data(imageUri)
-                        .size(coil.size.Size.ORIGINAL)
+//                        .size(50, 50)
                         .build()
                 ),
                 contentDescription = imageUri.toString(),

@@ -14,8 +14,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -30,14 +34,35 @@ import com.example.fthangouts.viewModel.NewContactViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewContact(dbConnection: DatabaseHelper, vm: NewContactViewModel = viewModel(), navController: NavController) {
+fun NewContact(
+    dbConnection: DatabaseHelper,
+    vm: NewContactViewModel = viewModel(),
+    navController: NavController,
+    user: User? = null
+) {
 
     val state by vm.uiState.collectAsState()
-    val datePickerState = rememberDatePickerState()
+    var datePickerState = rememberDatePickerState()
     val manager = LocalFocusManager.current
+    var firstLoad by remember { mutableStateOf(true) }
+
 
     fun createContactError(): Boolean {
         return state.firstName.isEmpty() || state.phoneNumber.isEmpty()
+    }
+
+    if (user != null && firstLoad) {
+        vm.firstNameChanged(user.firstName)
+        vm.lastNameChanged(user.lastName)
+        vm.phoneNumberChanged(user.phoneNumber)
+        vm.noteChanged(user.note)
+        vm.imageChanged(user.photo)
+
+        if (user.birthDate?.toInt() != 0) {
+            println(user)
+            datePickerState = rememberDatePickerState(user.birthDate)
+        }
+        firstLoad = false
     }
 
     Column(
@@ -62,7 +87,8 @@ fun NewContact(dbConnection: DatabaseHelper, vm: NewContactViewModel = viewModel
             firstNameChanged = { vm.firstNameChanged(it) },
             lastName = state.lastName,
             lastNameChanged = { vm.lastNameChanged(it) },
-            isError = state.isError
+            isError = state.isError,
+            user = user
         )
         PhoneNumberInput(
             phoneNumber = state.phoneNumber,
@@ -73,22 +99,26 @@ fun NewContact(dbConnection: DatabaseHelper, vm: NewContactViewModel = viewModel
         BirthDatePicker(datePickerState = datePickerState)
         Button(onClick = {
             if (!createContactError()) {
-                val user = User(
+                val newUser = User(
                     state.firstName,
                     state.lastName,
                     state.phoneNumber,
                     state.note,
                     state.image,
                     datePickerState.selectedDateMillis,
-                    0
+                    if (user == null) 0 else user.id
                 )
-                dbConnection.addUser(user)
+                if (user == null) {
+                    dbConnection.addUser(newUser)
+                } else {
+                    dbConnection.updateUser(newUser)
+                }
                 navController.navigateUp()
             } else {
                 vm.isErrorChanged(true)
             }
         }) {
-            Text(text = "Create Contact")
+            Text(text = if (user == null) "Create Contact" else "Edit contact")
         }
     }
 }

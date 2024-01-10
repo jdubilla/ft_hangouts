@@ -5,4 +5,5 @@ enum class Screens(val title: String) {
     SecondMessage(title = "Second Message"),
     ListContacts(title = "Contacts"),
     NewContact(title = "Create Contact"),
+    DetailsContact(title = "Details Contact")
 }

@@ -6,6 +6,7 @@ import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -13,6 +14,7 @@ fun BirthDatePicker(datePickerState: DatePickerState) {
     DatePicker(
         state = datePickerState,
         title = { Text(text = "Birth date") },
-        colors = DatePickerDefaults.colors()
+        colors = DatePickerDefaults.colors(),
+//        pickerD
     )
 }

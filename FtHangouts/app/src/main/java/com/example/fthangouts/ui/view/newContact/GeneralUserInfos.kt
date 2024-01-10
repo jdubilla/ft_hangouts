@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
+import com.example.fthangouts.model.User
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -22,7 +23,8 @@ fun GeneralUserInfos(
     firstNameChanged: (String) -> Unit,
     lastName: String,
     lastNameChanged: (String) -> Unit,
-    isError: Boolean
+    isError: Boolean,
+    user: User?
 ) {
     Row(
         modifier = Modifier
@@ -30,7 +32,7 @@ fun GeneralUserInfos(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        PhotoPicker(onImageSelected = { onImageSelected(it) })
+        PhotoPicker(onImageSelected = { onImageSelected(it) }, user = user)
         Column {
             OutlinedTextField(
                 value = firstName,

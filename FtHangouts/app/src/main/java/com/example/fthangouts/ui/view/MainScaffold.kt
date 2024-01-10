@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.model.ItemNav
 import com.example.fthangouts.model.Screens
+import com.example.fthangouts.ui.view.detailsContact.DetailsContact
 import com.example.fthangouts.ui.view.newContact.NewContact
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -25,8 +26,19 @@ fun MainScaffold() {
     val context = LocalContext.current
     val dbConnection = DatabaseHelper(context = context)
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen =
-        Screens.valueOf(backStackEntry?.destination?.route ?: Screens.FirstMessage.name)
+    val currentRoute = backStackEntry?.destination?.route ?: Screens.FirstMessage.name
+
+    fun extractScreenName(route: String): String {
+        val indexOfFirstBrace = route.indexOf("{")
+        return if (indexOfFirstBrace != -1) {
+            route.substring(0, indexOfFirstBrace - 1)
+        } else {
+            route
+        }
+    }
+
+    val currentScreenName = extractScreenName(currentRoute)
+    val currentScreen = Screens.valueOf(currentScreenName)
 
     Scaffold(
         topBar = {
@@ -54,12 +66,19 @@ fun MainScaffold() {
                         onNewContact = {
                             navController.navigate(route = "NewContact")
                         },
+                        navController = navController,
                         dbConnection = dbConnection,
 
-                    )
+                        )
                 }
                 composable("NewContact") {
                     NewContact(dbConnection = dbConnection, navController = navController)
+                }
+                composable("DetailsContact/{contactId}") { backStackEntry ->
+                    val contactId = backStackEntry.arguments?.getString("contactId")
+                    contactId?.let { id ->
+                        DetailsContact(contactId = id, dbConnection = dbConnection, navController = navController)
+                    }
                 }
             }
         },
