@@ -14,7 +14,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,12 +56,13 @@ fun NewContact(
         vm.phoneNumberChanged(user.phoneNumber)
         vm.noteChanged(user.note)
         vm.imageChanged(user.photo)
-
+        firstLoad = false
+    }
+    if (user != null) {
         if (user.birthDate?.toInt() != 0) {
             println(user)
             datePickerState = rememberDatePickerState(user.birthDate)
         }
-        firstLoad = false
     }
 
     Column(
