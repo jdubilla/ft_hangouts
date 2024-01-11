@@ -115,7 +115,7 @@ fun PhotoPicker(onImageSelected: (String) -> Unit, user: User?) {
                     model = ImageRequest
                         .Builder(LocalContext.current)
                         .data(imageUri)
-//                        .size(50, 50)
+                        .size(coil.size.Size.ORIGINAL)
                         .build()
                 ),
                 contentDescription = imageUri.toString(),

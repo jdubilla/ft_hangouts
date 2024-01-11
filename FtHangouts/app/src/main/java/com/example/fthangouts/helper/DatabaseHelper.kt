@@ -120,4 +120,10 @@ class DatabaseHelper(context: Context) :
         database?.update(TABLE_NAME, values, whereClause, whereArgs)
     }
 
+    fun deleteUser(id: Int) {
+        val whereClause = "$COLUMN_ID = ?"
+        val whereArgs = arrayOf(id.toString())
+
+        database?.delete(TABLE_NAME, whereClause, whereArgs)
+    }
 }

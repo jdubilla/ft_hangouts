@@ -1,10 +1,6 @@
 package com.example.fthangouts.ui.view
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,21 +16,23 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -42,13 +40,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.helper.loadImageFromInternalStorage
-import java.io.FileInputStream
-import java.io.FileNotFoundException
 
 @Composable
-fun ListContacts(onNewContact: () -> Unit, dbConnection: DatabaseHelper, navController: NavController) {
+fun ListContacts(
+    onNewContact: () -> Unit,
+    dbConnection: DatabaseHelper,
+    navController: NavController
+) {
 
-    val allContacts = dbConnection.getAllUsers()
+    var allContacts by remember { mutableStateOf(dbConnection.getAllUsers()) }
     val context = LocalContext.current
 
     Box {
@@ -98,6 +98,20 @@ fun ListContacts(onNewContact: () -> Unit, dbConnection: DatabaseHelper, navCont
                         },
                         headlineContent = {
                             Text(text = "${contact.firstName} ${contact.lastName} ${contact.id}")
+                        },
+                        trailingContent = {
+                            IconButton(onClick = {
+                                contact.id?.let {
+                                    dbConnection.deleteUser(it)
+                                    allContacts = allContacts.filter { it.id != contact.id }
+                                }
+                            })
+                            {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = null
+                                )
+                            }
                         },
                         colors = ListItemDefaults.colors(
                             containerColor = MaterialTheme.colorScheme.primaryContainer
