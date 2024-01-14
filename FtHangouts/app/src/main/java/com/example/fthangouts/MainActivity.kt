@@ -1,8 +1,10 @@
 package com.example.fthangouts
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DatePicker
@@ -25,8 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.fthangouts.ui.theme.AppTheme
 import com.example.fthangouts.ui.view.MainScaffold
+import com.example.fthangouts.ui.view.Permission
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -36,7 +40,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScaffold()
+                    var permissionsGranted by remember { mutableStateOf(false) }
+                    if (!permissionsGranted) {
+                        Permission(onPermissionGranted = { permissionsGranted = true })
+                    } else {
+                        MainScaffold()
+                    }
                 }
             }
         }

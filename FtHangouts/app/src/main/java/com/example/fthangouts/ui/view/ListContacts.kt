@@ -101,7 +101,7 @@ fun ListContacts(
                         },
                         trailingContent = {
                             IconButton(onClick = {
-                                contact.id?.let {
+                                contact.id?.let { it ->
                                     dbConnection.deleteUser(it)
                                     allContacts = allContacts.filter { it.id != contact.id }
                                 }
