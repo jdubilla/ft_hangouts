@@ -25,7 +25,7 @@ fun TestMessagesFirst(onClick: () -> Unit, dbConnection: DatabaseHelper) {
     Column(
         verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        Text(text = "First Messages")
+        Text(text = "TestMessagesFirst")
         Button(onClick = { onClick() }) {
             Text(text = "Test")
         }

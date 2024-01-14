@@ -28,68 +28,70 @@ import com.example.fthangouts.model.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(navController: NavController, screens: Screens) {
+fun AppBar(navController: NavController, screens: Screens, currentRoute: String?) {
 
     var expanded by remember { mutableStateOf(false) }
 
-    TopAppBar(
-        title = { Text(text = if (navController.previousBackStackEntry != null) screens.title else "Contacts") },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.primaryContainer
-        ),
-        navigationIcon = {
-            if (navController.previousBackStackEntry != null) {
-                IconButton(onClick = { navController.navigateUp() }) {
+    if (currentRoute != "Permissions") {
+        TopAppBar(
+            title = { Text(text = if (navController.previousBackStackEntry != null) screens.title else "Contacts") },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.primaryContainer
+            ),
+            navigationIcon = {
+                if (navController.previousBackStackEntry != null) {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = null
+                        )
+                    }
+                }
+            },
+            actions = {
+                IconButton(onClick = { expanded = !expanded }) {
                     Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = null
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = null,
+                        tint = Color.LightGray
                     )
                 }
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Edit") },
+                        onClick = { /* Handle edit! */ },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Outlined.Edit,
+                                contentDescription = null
+                            )
+                        })
+                    DropdownMenuItem(
+                        text = { Text("Settings") },
+                        onClick = { /* Handle settings! */ },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Outlined.Settings,
+                                contentDescription = null
+                            )
+                        })
+                    Divider()
+                    DropdownMenuItem(
+                        text = { Text("Send Feedback") },
+                        onClick = { /* Handle send feedback! */ },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Outlined.Email,
+                                contentDescription = null
+                            )
+                        },
+                        trailingIcon = { Text("F11", textAlign = TextAlign.Center) })
+                }
             }
-        },
-        actions = {
-            IconButton(onClick = { expanded = !expanded }) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = null,
-                    tint = Color.LightGray
-                )
-            }
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                DropdownMenuItem(
-                    text = { Text("Edit") },
-                    onClick = { /* Handle edit! */ },
-                    leadingIcon = {
-                        Icon(
-                            Icons.Outlined.Edit,
-                            contentDescription = null
-                        )
-                    })
-                DropdownMenuItem(
-                    text = { Text("Settings") },
-                    onClick = { /* Handle settings! */ },
-                    leadingIcon = {
-                        Icon(
-                            Icons.Outlined.Settings,
-                            contentDescription = null
-                        )
-                    })
-                Divider()
-                DropdownMenuItem(
-                    text = { Text("Send Feedback") },
-                    onClick = { /* Handle send feedback! */ },
-                    leadingIcon = {
-                        Icon(
-                            Icons.Outlined.Email,
-                            contentDescription = null
-                        )
-                    },
-                    trailingIcon = { Text("F11", textAlign = TextAlign.Center) })
-            }
-        }
-    )
+        )
+    }
 }

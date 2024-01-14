@@ -15,10 +15,11 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.shouldShowRationale
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun Permission(onPermissionGranted: () -> Unit) {
+fun Permissions(onPermissionGranted: () -> Unit) {
     val readSmsPermission = rememberPermissionState(
         permission = android.Manifest.permission.READ_SMS
     )
@@ -26,7 +27,8 @@ fun Permission(onPermissionGranted: () -> Unit) {
         permission = android.Manifest.permission.SEND_SMS
     )
 
-    if (readSmsPermission.status.isGranted && sendSmsPermission.status.isGranted) {
+    if (readSmsPermission.status.isGranted && sendSmsPermission.status.isGranted
+    ) {
         onPermissionGranted()
     } else {
         Column(
@@ -35,8 +37,14 @@ fun Permission(onPermissionGranted: () -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            val textToShow = if (readSmsPermission.status.shouldShowRationale) {
+                "Permission is important for this app. Please grant the permission."
+            } else {
+                "Permission required for this application to work. " +
+                        "Please grant the permission"
+            }
             Text(
-                text = "Permission is important for this app. Please grant the permission.",
+                text = textToShow,
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .padding(bottom = 20.dp),
@@ -45,9 +53,14 @@ fun Permission(onPermissionGranted: () -> Unit) {
             Button(onClick = {
                 readSmsPermission.launchPermissionRequest()
                 sendSmsPermission.launchPermissionRequest()
-                onPermissionGranted()
             }) {
-                Text(text = "Request permission")
+                val textButtonToShow =
+                    if (readSmsPermission.status.isGranted && sendSmsPermission.status.isGranted) {
+                        "Go to the app"
+                    } else {
+                        "Request permission"
+                    }
+                Text(text = textButtonToShow)
             }
         }
     }

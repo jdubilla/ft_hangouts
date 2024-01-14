@@ -42,7 +42,11 @@ fun MainScaffold() {
 
     Scaffold(
         topBar = {
-            AppBar(navController = navController, screens = currentScreen)
+            AppBar(
+                navController = navController,
+                screens = currentScreen,
+                currentRoute = backStackEntry?.destination?.route
+            )
         },
         content = { paddingValues ->
             NavHost(
@@ -50,6 +54,14 @@ fun MainScaffold() {
                 startDestination = ItemNav.First.route,
                 modifier = Modifier.padding(paddingValues)
             ) {
+                composable("Permissions") {
+                    Permissions(
+                        onPermissionGranted = {
+                            navController.popBackStack()
+                            navController.navigate(route = "ListContacts")
+                        }
+                    )
+                }
                 composable("FirstMessage") {
                     TestMessagesFirst(
                         onClick = {
@@ -77,7 +89,11 @@ fun MainScaffold() {
                 composable("DetailsContact/{contactId}") { backStackEntry ->
                     val contactId = backStackEntry.arguments?.getString("contactId")
                     contactId?.let { id ->
-                        DetailsContact(contactId = id, dbConnection = dbConnection, navController = navController)
+                        DetailsContact(
+                            contactId = id,
+                            dbConnection = dbConnection,
+                            navController = navController
+                        )
                     }
                 }
             }
