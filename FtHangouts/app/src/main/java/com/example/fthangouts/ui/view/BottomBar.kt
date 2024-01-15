@@ -21,11 +21,20 @@ fun BottomBar(navController: NavController, currentRoute: String?) {
         }
     }
 
+    fun itemSelected(item: String): Boolean {
+        return when (item) {
+            "Contacts" -> currentRoute in listOf("ListContacts", "NewContact") ||
+                    currentRoute?.startsWith("DetailsContact/") == true
+            "Messages" -> currentRoute == "FirstMessage"
+            else -> false
+        }
+    }
+
     if (currentRoute != "Permissions") {
         NavigationBar {
             AppDatas().items.forEach { item ->
                 NavigationBarItem(
-                    selected = currentRoute == item.route,
+                    selected = itemSelected(item.name),
                     onClick = { onClick(if (item.route == "Permissions") "ListContacts" else item.route) },
                     icon = {
                         Icon(

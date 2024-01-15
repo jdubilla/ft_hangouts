@@ -32,35 +32,23 @@ fun Permissions(onPermissionGranted: () -> Unit) {
         onPermissionGranted()
     } else {
         Column(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val textToShow = if (readSmsPermission.status.shouldShowRationale) {
-                "Permission is important for this app. Please grant the permission."
-            } else {
-                "Permission required for this application to work. " +
-                        "Please grant the permission"
-            }
-            Text(
-                text = textToShow,
-                modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .padding(bottom = 20.dp),
-                textAlign = TextAlign.Center
-            )
             Button(onClick = {
-                readSmsPermission.launchPermissionRequest()
-                sendSmsPermission.launchPermissionRequest()
+                if (readSmsPermission.status.isGranted) {
+                    sendSmsPermission.launchPermissionRequest()
+                } else {
+                    readSmsPermission.launchPermissionRequest()
+                }
             }) {
-                val textButtonToShow =
-                    if (readSmsPermission.status.isGranted && sendSmsPermission.status.isGranted) {
-                        "Go to the app"
-                    } else {
-                        "Request permission"
-                    }
-                Text(text = textButtonToShow)
+                val textToShow = if (readSmsPermission.status.isGranted) {
+                    "Go to app"
+                } else {
+                    "SMS permissions"
+                }
+                Text(textToShow)
             }
         }
     }
