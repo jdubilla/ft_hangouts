@@ -1,7 +1,7 @@
 package com.example.fthangouts.model
 
 enum class Screens(val title: String) {
-    FirstMessage(title = "First Message"),
+    MessagesList(title = "Messages"),
     SecondMessage(title = "Second Message"),
     ListContacts(title = "Contacts"),
     NewContact(title = "Create Contact"),

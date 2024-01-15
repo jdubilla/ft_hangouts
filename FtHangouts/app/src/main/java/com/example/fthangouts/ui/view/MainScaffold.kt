@@ -26,7 +26,7 @@ fun MainScaffold() {
     val context = LocalContext.current
     val dbConnection = DatabaseHelper(context = context)
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = backStackEntry?.destination?.route ?: Screens.FirstMessage.name
+    val currentRoute = backStackEntry?.destination?.route ?: Screens.MessagesList.name
 
     fun extractScreenName(route: String): String {
         val indexOfFirstBrace = route.indexOf("{")
@@ -62,8 +62,8 @@ fun MainScaffold() {
                         }
                     )
                 }
-                composable("FirstMessage") {
-                    TestMessagesFirst(
+                composable("MessagesList") {
+                    MessagesList(
                         onClick = {
                             navController.navigate(route = "SecondMessage")
                         },
