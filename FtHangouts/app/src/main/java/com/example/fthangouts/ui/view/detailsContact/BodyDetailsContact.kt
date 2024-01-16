@@ -32,6 +32,7 @@ fun BodyDetailsContact(contact: User) {
     ) {
         DetailItem(label = "First name", value = contact.firstName)
         DetailItem(label = "Last name", value = contact.lastName)
+        DetailItem(label = "Phone number", value = contact.phoneNumber)
         DetailItem(label = "Note", value = contact.note)
         if (contact.birthDate != null) {
             DetailItem(label = "Birth date", value = convertTimestampToDate(contact.birthDate))

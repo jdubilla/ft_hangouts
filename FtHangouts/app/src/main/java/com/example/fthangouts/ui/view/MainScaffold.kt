@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.model.ItemNav
 import com.example.fthangouts.model.Screens
+import com.example.fthangouts.ui.view.ConversationsList.ConversationsList
 import com.example.fthangouts.ui.view.detailsContact.DetailsContact
 import com.example.fthangouts.ui.view.newContact.NewContact
 
@@ -26,7 +27,7 @@ fun MainScaffold() {
     val context = LocalContext.current
     val dbConnection = DatabaseHelper(context = context)
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = backStackEntry?.destination?.route ?: Screens.MessagesList.name
+    val currentRoute = backStackEntry?.destination?.route ?: Screens.ConversationsList.name
 
     fun extractScreenName(route: String): String {
         val indexOfFirstBrace = route.indexOf("{")
@@ -51,7 +52,7 @@ fun MainScaffold() {
         content = { paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = ItemNav.First.route,
+                startDestination = ItemNav.Second.route,
                 modifier = Modifier.padding(paddingValues)
             ) {
                 composable("Permissions") {
@@ -62,8 +63,8 @@ fun MainScaffold() {
                         }
                     )
                 }
-                composable("MessagesList") {
-                    MessagesList(
+                composable("ConversationsList") {
+                    ConversationsList(
                         onClick = {
                             navController.navigate(route = "SecondMessage")
                         },

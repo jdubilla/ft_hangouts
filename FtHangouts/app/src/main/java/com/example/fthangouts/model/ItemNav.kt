@@ -8,5 +8,5 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class ItemNav(val name: String, val icon: ImageVector, val route: String) {
     object First: ItemNav("Contacts", Icons.Default.Person, "Permissions")
-    object Second: ItemNav("Messages", Icons.Default.Email, "MessagesList")
+    object Second: ItemNav("Messages", Icons.Default.Email, "ConversationsList")
 }

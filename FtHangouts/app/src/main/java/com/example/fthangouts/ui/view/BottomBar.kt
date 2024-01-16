@@ -25,7 +25,7 @@ fun BottomBar(navController: NavController, currentRoute: String?) {
         return when (item) {
             "Contacts" -> currentRoute in listOf("ListContacts", "NewContact") ||
                     currentRoute?.startsWith("DetailsContact/") == true
-            "Messages" -> currentRoute == "MessagesList"
+            "Messages" -> currentRoute == "ConversationsList"
             else -> false
         }
     }
