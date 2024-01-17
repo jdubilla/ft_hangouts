@@ -30,7 +30,11 @@ fun BottomBar(navController: NavController, currentRoute: String?) {
         }
     }
 
-    if (currentRoute != "Permissions") {
+    if (currentRoute != null) {
+        println(currentRoute.startsWith("MessageThread/"))
+    }
+
+    if (currentRoute != "Permissions" && (currentRoute != null && !currentRoute.startsWith("MessageThread/"))) {
         NavigationBar {
             AppDatas().items.forEach { item ->
                 NavigationBarItem(

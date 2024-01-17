@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.model.ItemNav
 import com.example.fthangouts.model.Screens
-import com.example.fthangouts.ui.view.ConversationsList.ConversationsList
+import com.example.fthangouts.ui.view.conversationsList.ConversationsList
 import com.example.fthangouts.ui.view.detailsContact.DetailsContact
 import com.example.fthangouts.ui.view.newContact.NewContact
 
@@ -65,14 +65,15 @@ fun MainScaffold() {
                 }
                 composable("ConversationsList") {
                     ConversationsList(
-                        onClick = {
-                            navController.navigate(route = "SecondMessage")
-                        },
+                        navController = navController,
                         dbConnection = dbConnection
                     )
                 }
-                composable("SecondMessage") {
-                    TestMessagesSecond()
+                composable("MessageThread/{phoneNumber}") {
+                    val phoneNumber = backStackEntry?.arguments?.getString("phoneNumber")
+                    phoneNumber?.let { phone ->
+                        MessageThread(phone)
+                    }
                 }
                 composable("ListContacts") {
                     ListContacts(
@@ -81,8 +82,7 @@ fun MainScaffold() {
                         },
                         navController = navController,
                         dbConnection = dbConnection,
-
-                        )
+                    )
                 }
                 composable("NewContact") {
                     NewContact(dbConnection = dbConnection, navController = navController)
