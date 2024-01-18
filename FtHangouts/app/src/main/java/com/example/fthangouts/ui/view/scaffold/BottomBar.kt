@@ -1,4 +1,4 @@
-package com.example.fthangouts.ui.view
+package com.example.fthangouts.ui.view.scaffold
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar

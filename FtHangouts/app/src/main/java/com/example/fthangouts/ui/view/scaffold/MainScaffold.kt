@@ -1,4 +1,4 @@
-package com.example.fthangouts.ui.view
+package com.example.fthangouts.ui.view.scaffold
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -15,6 +15,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.model.ItemNav
 import com.example.fthangouts.model.Screens
+import com.example.fthangouts.ui.view.ListContacts
+import com.example.fthangouts.ui.view.MessageThread
+import com.example.fthangouts.ui.view.Permissions
 import com.example.fthangouts.ui.view.conversationsList.ConversationsList
 import com.example.fthangouts.ui.view.detailsContact.DetailsContact
 import com.example.fthangouts.ui.view.newContact.NewContact
