@@ -48,7 +48,7 @@ fun ListContacts(
     navController: NavController
 ) {
 
-    var allContacts by remember { mutableStateOf(dbConnection.getAllUsers()) }
+    val allContacts by remember { mutableStateOf(dbConnection.getAllUsers()) }
     val context = LocalContext.current
 
     Box {
@@ -99,20 +99,20 @@ fun ListContacts(
                         headlineContent = {
                             Text(text = "${contact.firstName} ${contact.lastName} ${contact.id}")
                         },
-                        trailingContent = {
-                            IconButton(onClick = {
-                                contact.id?.let { it ->
-                                    dbConnection.deleteUser(it)
-                                    allContacts = allContacts.filter { it.id != contact.id }
-                                }
-                            })
-                            {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = null
-                                )
-                            }
-                        },
+//                        trailingContent = {
+//                            IconButton(onClick = {
+//                                contact.id?.let { it ->
+//                                    dbConnection.deleteUser(it)
+//                                    allContacts = allContacts.filter { it.id != contact.id }
+//                                }
+//                            })
+//                            {
+//                                Icon(
+//                                    imageVector = Icons.Default.Delete,
+//                                    contentDescription = null
+//                                )
+//                            }
+//                        },
                         colors = ListItemDefaults.colors(
                             containerColor = MaterialTheme.colorScheme.primaryContainer
                         ),

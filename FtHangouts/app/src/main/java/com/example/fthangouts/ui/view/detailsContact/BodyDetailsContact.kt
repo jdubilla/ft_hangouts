@@ -25,7 +25,7 @@ fun BodyDetailsContact(contact: User) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
+//            .fillMaxSize()
             .padding(10.dp)
             .padding(top = 20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)

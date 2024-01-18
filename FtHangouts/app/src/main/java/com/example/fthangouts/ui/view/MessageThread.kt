@@ -94,24 +94,5 @@ fun MessageThread(phoneNumber: String) {
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
         )
-//        TextField(
-//            value = messageText,
-//            onValueChange = { messageText = it },
-//            modifier = Modifier
-//                .align(Alignment.BottomCenter)
-//                .fillMaxWidth(),
-//            placeholder = { Text(text = "Text message")},
-//            trailingIcon = {
-//                IconButton(
-//                    onClick = { sendMessage() },
-//                    enabled = messageText.isNotEmpty()
-//                ) {
-//                    Icon(
-//                        imageVector = Icons.Default.Send,
-//                        contentDescription = null,
-//                    )
-//                }
-//            }
-//        )
     }
 }

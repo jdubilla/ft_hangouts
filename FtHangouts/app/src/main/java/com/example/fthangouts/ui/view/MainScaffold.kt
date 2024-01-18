@@ -52,7 +52,7 @@ fun MainScaffold() {
         content = { paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = ItemNav.Second.route,
+                startDestination = ItemNav.First.route,
                 modifier = Modifier.padding(paddingValues)
             ) {
                 composable("Permissions") {
