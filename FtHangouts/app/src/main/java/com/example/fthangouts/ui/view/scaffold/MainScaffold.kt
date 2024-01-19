@@ -53,54 +53,7 @@ fun MainScaffold() {
             )
         },
         content = { paddingValues ->
-            NavHost(
-                navController = navController,
-                startDestination = ItemNav.First.route,
-                modifier = Modifier.padding(paddingValues)
-            ) {
-                composable("Permissions") {
-                    Permissions(
-                        onPermissionGranted = {
-                            navController.popBackStack()
-                            navController.navigate(route = "ListContacts")
-                        }
-                    )
-                }
-                composable("ConversationsList") {
-                    ConversationsList(
-                        navController = navController,
-                        dbConnection = dbConnection
-                    )
-                }
-                composable("MessageThread/{phoneNumber}") {
-                    val phoneNumber = backStackEntry?.arguments?.getString("phoneNumber")
-                    phoneNumber?.let { phone ->
-                        MessageThread(phone)
-                    }
-                }
-                composable("ListContacts") {
-                    ListContacts(
-                        onNewContact = {
-                            navController.navigate(route = "NewContact")
-                        },
-                        navController = navController,
-                        dbConnection = dbConnection,
-                    )
-                }
-                composable("NewContact") {
-                    NewContact(dbConnection = dbConnection, navController = navController)
-                }
-                composable("DetailsContact/{contactId}") { backStackEntry ->
-                    val contactId = backStackEntry.arguments?.getString("contactId")
-                    contactId?.let { id ->
-                        DetailsContact(
-                            contactId = id,
-                            dbConnection = dbConnection,
-                            navController = navController
-                        )
-                    }
-                }
-            }
+            NavHostController(paddingValues, navController, dbConnection, backStackEntry)
         },
         bottomBar = {
             BottomBar(
