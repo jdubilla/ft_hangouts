@@ -55,8 +55,20 @@ fun MessageThread(phoneNumber: String) {
         }
     }
 
+//    fun sendMessage() {
+//        val smsManager = context.getSystemService(SmsManager::class.java)
+//        smsManager.sendTextMessage(
+//            phoneNumber,
+//            null,
+//            messageText,
+//            null,
+//            null
+//        )
+//        messageText = ""
+//    }
+
     fun sendMessage() {
-        val smsManager = context.getSystemService(SmsManager::class.java)
+        val smsManager = SmsManager.getDefault()
         smsManager.sendTextMessage(
             phoneNumber,
             null,
