@@ -39,7 +39,9 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.fthangouts.R
 import com.example.fthangouts.helper.DatabaseHelper
@@ -57,7 +59,8 @@ fun ListContacts(
 
     Box {
         Column(
-            verticalArrangement = Arrangement.spacedBy(5.dp),
+            verticalArrangement = if (allContacts.isNotEmpty()) Arrangement.spacedBy(5.dp) else Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .padding(5.dp)
                 .fillMaxSize()
@@ -67,62 +70,58 @@ fun ListContacts(
                 )
                 .align(Alignment.TopStart)
         ) {
-            allContacts.forEach { contact ->
-                Surface(
-                    onClick = {
-                        println(contact.id)
-                        navController.navigate(route = "DetailsContact/${contact.id}")
-                    }
-                ) {
-                    ListItem(
-                        leadingContent = {
-                            if (contact.photo == "") {
-                                Icon(
-                                    imageVector = Icons.Default.AccountCircle,
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .width(45.dp)
-                                        .height(45.dp)
-                                )
-                            } else {
-                                val bitmap = loadImageFromInternalStorage(context, contact.photo)
-                                if (bitmap != null) {
-                                    val bitmapImg = bitmap.asImageBitmap()
-                                    Image(
-                                        bitmap = bitmapImg,
+            if (allContacts.isEmpty()) {
+                Text(
+                    text = "No contacts to display",
+                    color = Color.LightGray,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            } else {
+                allContacts.forEach { contact ->
+                    Surface(
+                        onClick = {
+                            println(contact.id)
+                            navController.navigate(route = "DetailsContact/${contact.id}")
+                        }
+                    ) {
+                        ListItem(
+                            leadingContent = {
+                                if (contact.photo == "") {
+                                    Icon(
+                                        imageVector = Icons.Default.AccountCircle,
                                         contentDescription = null,
                                         modifier = Modifier
                                             .width(45.dp)
                                             .height(45.dp)
-                                            .clip(CircleShape),
-                                        contentScale = ContentScale.Crop
                                     )
+                                } else {
+                                    val bitmap =
+                                        loadImageFromInternalStorage(context, contact.photo)
+                                    if (bitmap != null) {
+                                        val bitmapImg = bitmap.asImageBitmap()
+                                        Image(
+                                            bitmap = bitmapImg,
+                                            contentDescription = null,
+                                            modifier = Modifier
+                                                .width(45.dp)
+                                                .height(45.dp)
+                                                .clip(CircleShape),
+                                            contentScale = ContentScale.Crop
+                                        )
+                                    }
                                 }
-                            }
-                        },
-                        headlineContent = {
-                            Text(text = "${contact.firstName} ${contact.lastName} ${contact.id}")
-                        },
-//                        trailingContent = {
-//                            IconButton(onClick = {
-//                                contact.id?.let { it ->
-//                                    dbConnection.deleteUser(it)
-//                                    allContacts = allContacts.filter { it.id != contact.id }
-//                                }
-//                            })
-//                            {
-//                                Icon(
-//                                    imageVector = Icons.Default.Delete,
-//                                    contentDescription = null
-//                                )
-//                            }
-//                        },
-                        colors = ListItemDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer
-                        ),
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(15.dp)),
-                    )
+                            },
+                            headlineContent = {
+                                Text(text = "${contact.firstName} ${contact.lastName} ${contact.id}")
+                            },
+                            colors = ListItemDefaults.colors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(15.dp)),
+                        )
+                    }
                 }
             }
         }

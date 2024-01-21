@@ -35,7 +35,8 @@ fun MessageTile(message: SMSMessage) {
                 .widthIn(max = screenWidth.dp)
                 .padding(
                     start = if (message.type == 1) 10.dp else 0.dp,
-                    end = if (message.type != 1) 10.dp else 0.dp
+                    end = if (message.type != 1) 10.dp else 0.dp,
+                    top = 10.dp
                 )
                 .clip(RoundedCornerShape(10.dp))
                 .background(if (message.type == 1) Color.LightGray else MaterialTheme.colorScheme.primaryContainer)

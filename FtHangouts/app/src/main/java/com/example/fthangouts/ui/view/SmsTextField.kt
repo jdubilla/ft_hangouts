@@ -1,4 +1,4 @@
-package com.example.fthangouts.ui.view.conversationsList
+package com.example.fthangouts.ui.view
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
@@ -16,6 +16,7 @@ fun SmsTextField(messageText: String, onValueChange: (String) -> Unit, sendMessa
         onValueChange = { onValueChange(it) },
         modifier = modifier,
         placeholder = { Text(text = "Text message") },
+        maxLines = 2,
         trailingIcon = {
             IconButton(
                 onClick = { sendMessage() },

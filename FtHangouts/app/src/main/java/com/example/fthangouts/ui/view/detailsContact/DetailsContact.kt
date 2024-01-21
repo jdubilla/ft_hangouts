@@ -90,7 +90,7 @@ fun DetailsContact(contactId: String, dbConnection: DatabaseHelper, navControlle
                             .fillMaxWidth()
                             .padding(top = 20.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceAround
+                        horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         ActionButtonDetailContact(
                             onClick = {

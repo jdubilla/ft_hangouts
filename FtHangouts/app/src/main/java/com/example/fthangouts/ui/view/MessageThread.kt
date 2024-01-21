@@ -4,6 +4,7 @@ import android.telephony.SmsManager
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,7 +25,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.example.fthangouts.helper.SmsHelper
 import com.example.fthangouts.model.SMSMessage
-import com.example.fthangouts.ui.view.conversationsList.SmsTextField
 import kotlinx.coroutines.delay
 
 @Composable
@@ -80,7 +80,6 @@ fun MessageThread(phoneNumber: String) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(bottom = TextFieldDefaults.MinHeight + 7.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
             reverseLayout = true
         ) {
             items(conversationMessages) { message ->
@@ -88,11 +87,14 @@ fun MessageThread(phoneNumber: String) {
             }
         }
         SmsTextField(messageText,
-            { messageText = it },
+            {
+                messageText = it.take(150)
+            },
             { sendMessage() },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
+                .padding(top = 90.dp)
         )
     }
 }
