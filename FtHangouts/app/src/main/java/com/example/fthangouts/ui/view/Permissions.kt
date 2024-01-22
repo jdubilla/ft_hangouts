@@ -26,9 +26,6 @@ fun Permissions(onPermissionGranted: () -> Unit) {
     val sendSmsPermission = rememberPermissionState(
         permission = android.Manifest.permission.SEND_SMS
     )
-//    val callPermission = rememberPermissionState(
-//        permission = android.Manifest.permission.CALL_PHONE
-//    )
 
     if (readSmsPermission.status.isGranted && sendSmsPermission.status.isGranted) {
         onPermissionGranted()
@@ -41,14 +38,12 @@ fun Permissions(onPermissionGranted: () -> Unit) {
             Button(onClick = {
                 if (readSmsPermission.status.isGranted) {
                     sendSmsPermission.launchPermissionRequest()
-//                    callPermission.launchPermissionRequest()
                 } else {
                     readSmsPermission.launchPermissionRequest()
-//                    callPermission.launchPermissionRequest()
                 }
             }) {
                 val textToShow = if (readSmsPermission.status.isGranted) {
-                    "Go to app"
+                    "Go app"
                 } else {
                     "SMS permissions"
                 }

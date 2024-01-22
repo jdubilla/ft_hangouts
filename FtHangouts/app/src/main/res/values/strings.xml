@@ -1,3 +1,35 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">FtHangouts</string>
+    <string name="no_contact">No contacts to display</string>
+    <string name="no_conversations">No conversations to display</string>
+
+    // MainScaffold.kt
+    <string name="last_visit">seconds since your last visit</string>
+
+    // AppBar.kt
+    <string name="gray">Gray</string>
+    <string name="black">Black</string>
+    <string name="color_default">Default</string>
+
+    // BodyDetailsContact.kt
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="birth_date">Birth date</string>
+
+    // DetailsContact.kt
+    <string name="contact_does_not_exist">Contact does not exist</string>
+    <string name="call">Call</string>
+    <string name="delete">Delete</string>
+
+    // NewContact.kt
+    <string name="create_contact">Create contact</string>
+    <string name="edit_contact">Edit contact</string>
+
+    // ListContacts.kt
+    <string name="new_contact">New contact</string>
+
+    //SmsTextField.kt
+    <string name="text_message">Text message</string>
+
 </resources>

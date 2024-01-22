@@ -9,16 +9,15 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.fthangouts.R
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.model.Screens
 import kotlinx.coroutines.delay
@@ -36,6 +35,7 @@ fun MainScaffold() {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
     var elapsedTime by remember { mutableLongStateOf(0L) }
+    var textElapsedTime = context.getString(R.string.last_visit)
 
     LaunchedEffect(true) {
         while (true) {
@@ -45,28 +45,23 @@ fun MainScaffold() {
     }
 
     DisposableEffect(Unit) {
-        val observer = object : LifecycleEventObserver {
-            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                when (event) {
-                    Lifecycle.Event.ON_START -> {
-                        println("PREMIER PLAN")
-                        if (elapsedTime != 0L) {
-                            println(elapsedTime)
-                            Toast.makeText(
-                                context,
-                                "$elapsedTime seconds since your last visit.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_START -> {
+                    if (elapsedTime != 0L) {
+                        Toast.makeText(
+                            context,
+                            "$elapsedTime $textElapsedTime",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-
-                    Lifecycle.Event.ON_STOP -> {
-                        println("ARRIERE PLAN")
-                        elapsedTime = 0L
-                    }
-
-                    else -> {}
                 }
+
+                Lifecycle.Event.ON_STOP -> {
+                    elapsedTime = 0L
+                }
+
+                else -> {}
             }
         }
         lifecycle.addObserver(observer)

@@ -25,14 +25,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
+import com.example.fthangouts.R
 import com.example.fthangouts.model.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(navController: NavController, screens: Screens, currentRoute: String?) {
 
+    val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
     var headerColor by remember { mutableStateOf(Color(android.graphics.Color.parseColor("#664E9E"))) }
 
@@ -65,11 +69,11 @@ fun AppBar(navController: NavController, screens: Screens, currentRoute: String?
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    MyDropdownMenuItem(text = "Gray", headerColor = headerColor, color = Color.Gray, onChangeHeaderColor =  {headerColor = it})
-                    MyDropdownMenuItem(text = "Black", headerColor = headerColor, color = Color.Black, onChangeHeaderColor =  {headerColor = it})
+                    MyDropdownMenuItem(text = context.getString(R.string.gray), headerColor = headerColor, color = Color.Gray, onChangeHeaderColor =  {headerColor = it})
+                    MyDropdownMenuItem(text = context.getString(R.string.black), headerColor = headerColor, color = Color.Black, onChangeHeaderColor =  {headerColor = it})
                     Divider()
                     DropdownMenuItem(
-                        text = { Text("Default") },
+                        text = { Text(context.getString(R.string.color_default)) },
                         onClick = {
                             headerColor = Color(0xFF664E9E)
                         },

@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.fthangouts.R
 
 @Composable
 fun SmsTextField(messageText: String, onValueChange: (String) -> Unit, sendMessage: () -> Unit, modifier: Modifier) {
@@ -15,7 +17,7 @@ fun SmsTextField(messageText: String, onValueChange: (String) -> Unit, sendMessa
         value = messageText,
         onValueChange = { onValueChange(it) },
         modifier = modifier,
-        placeholder = { Text(text = "Text message") },
+        placeholder = { Text(stringResource(id = R.string.text_message)) },
         maxLines = 2,
         trailingIcon = {
             IconButton(

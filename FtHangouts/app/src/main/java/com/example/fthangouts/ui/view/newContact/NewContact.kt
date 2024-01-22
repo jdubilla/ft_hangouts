@@ -23,9 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.fthangouts.R
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.model.User
 import com.example.fthangouts.viewModel.NewContactViewModel
@@ -118,7 +120,7 @@ fun NewContact(
                 vm.isErrorChanged(true)
             }
         }) {
-            Text(text = if (user == null) "Create Contact" else "Edit contact")
+            Text(stringResource(id = if (user == null) R.string.create_contact else R.string.edit_contact))
         }
     }
 }

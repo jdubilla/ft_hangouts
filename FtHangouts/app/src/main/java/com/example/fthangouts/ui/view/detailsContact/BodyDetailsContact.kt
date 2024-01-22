@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.example.fthangouts.R
 import com.example.fthangouts.model.User
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -15,7 +17,7 @@ import java.util.Locale
 @Composable
 fun BodyDetailsContact(contact: User) {
 
-    println(contact.birthDate)
+    val context = LocalContext.current
 
     fun convertTimestampToDate(timestamp: Long): String {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -25,17 +27,16 @@ fun BodyDetailsContact(contact: User) {
 
     Column(
         modifier = Modifier
-//            .fillMaxSize()
             .padding(10.dp)
             .padding(top = 20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        DetailItem(label = "First name", value = contact.firstName)
-        DetailItem(label = "Last name", value = contact.lastName)
-        DetailItem(label = "Phone number", value = contact.phoneNumber)
+        DetailItem(label = context.getString(R.string.first_name), value = contact.firstName)
+        DetailItem(label = context.getString(R.string.last_name), value = contact.lastName)
+        DetailItem(label = context.getString(R.string.phone_number), value = contact.phoneNumber)
         DetailItem(label = "Note", value = contact.note)
         if (contact.birthDate != null) {
-            DetailItem(label = "Birth date", value = convertTimestampToDate(contact.birthDate))
+            DetailItem(label = context.getString(R.string.birth_date), value = convertTimestampToDate(contact.birthDate))
         }
     }
 }

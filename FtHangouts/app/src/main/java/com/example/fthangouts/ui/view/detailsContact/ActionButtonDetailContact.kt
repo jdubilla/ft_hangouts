@@ -43,7 +43,7 @@ fun ActionButtonDetailContact(onClick: () -> Unit, imageVector: ImageVector, lab
             )
             Text(
                 text = label,
-                fontSize = 14.sp
+                fontSize = 12.sp
             )
         }
     }

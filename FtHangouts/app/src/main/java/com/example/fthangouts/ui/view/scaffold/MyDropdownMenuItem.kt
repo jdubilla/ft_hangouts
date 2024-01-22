@@ -7,6 +7,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun MyDropdownMenuItem(text: String, headerColor: Color, color: Color, onChangeHeaderColor: (Color) -> Unit) {
@@ -14,7 +15,6 @@ fun MyDropdownMenuItem(text: String, headerColor: Color, color: Color, onChangeH
         text = { Text(text) },
         onClick = {
                   onChangeHeaderColor(color)
-//            headerColor = Color.Gray
         },
         trailingIcon = {
             if (headerColor == color) {

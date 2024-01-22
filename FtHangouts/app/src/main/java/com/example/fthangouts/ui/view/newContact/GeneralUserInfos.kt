@@ -12,7 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import com.example.fthangouts.R
 import com.example.fthangouts.model.User
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -41,7 +43,7 @@ fun GeneralUserInfos(
                         firstNameChanged(newValue)
                     }
                 },
-                label = { Text(text = "First Name") },
+                label = { Text(stringResource(id = R.string.first_name)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
@@ -55,7 +57,7 @@ fun GeneralUserInfos(
                         lastNameChanged(newValue)
                     }
                 },
-                label = { Text(text = "Last Name") },
+                label = { Text(stringResource(id = R.string.last_name)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next

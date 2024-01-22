@@ -30,8 +30,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.fthangouts.R
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.model.User
 import com.example.fthangouts.ui.view.newContact.NewContact
@@ -44,6 +47,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 @Composable
 fun DetailsContact(contactId: String, dbConnection: DatabaseHelper, navController: NavController) {
 
+    val context = LocalContext.current
     val contact: User? = dbConnection.getUserById(contactId.toInt())
     var isEditing by remember { mutableStateOf(false) }
 
@@ -68,7 +72,7 @@ fun DetailsContact(contactId: String, dbConnection: DatabaseHelper, navControlle
     }
 
     if (contact == null) {
-        Text(text = "Contact does not exist")
+        Text(stringResource(id = R.string.contact_does_not_exist))
     } else {
         if (!isEditing) {
             Box {
@@ -104,7 +108,7 @@ fun DetailsContact(contactId: String, dbConnection: DatabaseHelper, navControlle
                         ActionButtonDetailContact(
                             onClick = { onClickPhoneCall() },
                             imageVector = Icons.Default.Call,
-                            label = "Call"
+                            label = context.getString(R.string.call)
                         )
                         ActionButtonDetailContact(
                             onClick = {
@@ -114,7 +118,7 @@ fun DetailsContact(contactId: String, dbConnection: DatabaseHelper, navControlle
                                 }
                             },
                             imageVector = Icons.Default.Delete,
-                            label = "Delete"
+                            label = context.getString(R.string.delete)
                         )
                     }
 

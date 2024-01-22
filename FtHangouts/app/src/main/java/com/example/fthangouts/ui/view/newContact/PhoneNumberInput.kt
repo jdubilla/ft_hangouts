@@ -6,8 +6,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import com.example.fthangouts.R
 
 @Composable
 fun PhoneNumberInput(phoneNumber: String, phoneNumberChanged: (String) -> Unit, isError: Boolean) {
@@ -20,7 +22,7 @@ fun PhoneNumberInput(phoneNumber: String, phoneNumberChanged: (String) -> Unit, 
                 phoneNumberChanged(newValue)
             }
         },
-        label = { Text(text = "Phone number") },
+        label = { Text(stringResource(id = R.string.phone_number)) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,

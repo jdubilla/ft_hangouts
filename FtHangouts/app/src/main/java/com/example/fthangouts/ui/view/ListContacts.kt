@@ -72,7 +72,7 @@ fun ListContacts(
         ) {
             if (allContacts.isEmpty()) {
                 Text(
-                    text = "No contacts to display",
+                    stringResource(id = R.string.no_contact),
                     color = Color.LightGray,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold
@@ -136,7 +136,7 @@ fun ListContacts(
                 contentDescription = null,
             )
             Spacer(modifier = Modifier.width(5.dp))
-            Text(text = "New Contact")
+            Text(stringResource(id = R.string.new_contact))
         }
     }
 }

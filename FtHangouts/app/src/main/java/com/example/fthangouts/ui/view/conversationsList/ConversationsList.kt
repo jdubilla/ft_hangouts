@@ -17,10 +17,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.fthangouts.R
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.helper.SmsHelper
 import com.example.fthangouts.model.SMSMessage
@@ -56,7 +58,7 @@ fun ConversationsList(navController: NavController, dbConnection: DatabaseHelper
             modifier = Modifier.fillMaxSize()
         ) {
             Text(
-                text = "No conversations to display",
+                stringResource(id = R.string.no_conversations),
                 color = Color.LightGray,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
