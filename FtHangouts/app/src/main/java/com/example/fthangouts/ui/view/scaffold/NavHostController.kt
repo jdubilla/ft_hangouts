@@ -58,7 +58,7 @@ fun NavHostController(
                     navController.navigate(route = "NewContact")
                 },
                 navController = navController,
-                dbConnection = dbConnection,
+                dbConnection = dbConnection
             )
         }
         composable("NewContact") {

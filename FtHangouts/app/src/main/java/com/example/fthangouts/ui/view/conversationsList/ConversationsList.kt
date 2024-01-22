@@ -26,7 +26,9 @@ import com.example.fthangouts.R
 import com.example.fthangouts.helper.DatabaseHelper
 import com.example.fthangouts.helper.SmsHelper
 import com.example.fthangouts.model.SMSMessage
+import com.example.fthangouts.model.User
 import kotlinx.coroutines.delay
+import java.sql.Connection
 
 @Composable
 fun ConversationsList(navController: NavController, dbConnection: DatabaseHelper) {
@@ -42,6 +44,22 @@ fun ConversationsList(navController: NavController, dbConnection: DatabaseHelper
             val newMessagesInbox = smsHelper.getAllMessages(context)
 
             if (allMessages.size != newMessagesInbox.size) {
+                println("NEW Message")
+                for (message in newMessagesInbox) {
+                    if (!dbConnection.phoneNumberIsRegister(message.sender)) {
+                        dbConnection.addUser(
+                            User(
+                                firstName = message.sender,
+                                lastName = "",
+                                phoneNumber = message.sender,
+                                note = "",
+                                photo = "",
+                                birthDate = null,
+                                id = null
+                            )
+                        )
+                    }
+                }
                 allMessages = newMessagesInbox
 
                 uniqueMessages = newMessagesInbox.distinctBy { it.sender }
@@ -50,7 +68,6 @@ fun ConversationsList(navController: NavController, dbConnection: DatabaseHelper
         }
     }
 
-    println(uniqueMessages)
     if (uniqueMessages.isEmpty()) {
         Column(
             verticalArrangement = Arrangement.Center,

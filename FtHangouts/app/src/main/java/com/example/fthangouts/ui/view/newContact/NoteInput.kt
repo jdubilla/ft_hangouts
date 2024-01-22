@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 
 @Composable
-fun NoteInput(note: String, noteChanged: (String) -> Unit, isError: Boolean) {
+fun NoteInput(note: String, noteChanged: (String) -> Unit) {
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth(),

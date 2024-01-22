@@ -105,6 +105,7 @@ class DatabaseHelper(context: Context) :
     }
 
     fun updateUser(user: User) {
+//        println(user)
         val values = ContentValues().apply {
             put(COLUMN_FIRST_NAME, user.firstName)
             put(COLUMN_LAST_NAME, user.lastName)
@@ -125,5 +126,15 @@ class DatabaseHelper(context: Context) :
         val whereArgs = arrayOf(id.toString())
 
         database?.delete(TABLE_NAME, whereClause, whereArgs)
+    }
+
+    fun phoneNumberIsRegister(phoneNumber: String): Boolean {
+        val selectQuery = "SELECT * FROM $TABLE_NAME WHERE phone_number = ?"
+        val cursor = database?.rawQuery(selectQuery, arrayOf(phoneNumber))
+
+        if (cursor != null && cursor.moveToFirst()) {
+            return true
+        }
+        return false
     }
 }

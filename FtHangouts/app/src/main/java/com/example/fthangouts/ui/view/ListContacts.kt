@@ -81,7 +81,6 @@ fun ListContacts(
                 allContacts.forEach { contact ->
                     Surface(
                         onClick = {
-                            println(contact.id)
                             navController.navigate(route = "DetailsContact/${contact.id}")
                         }
                     ) {
@@ -113,7 +112,7 @@ fun ListContacts(
                                 }
                             },
                             headlineContent = {
-                                Text(text = "${contact.firstName} ${contact.lastName} ${contact.id}")
+                                Text(text = "${contact.firstName} ${contact.lastName}")
                             },
                             colors = ListItemDefaults.colors(
                                 containerColor = MaterialTheme.colorScheme.primaryContainer

@@ -32,9 +32,13 @@ fun BodyDetailsContact(contact: User) {
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         DetailItem(label = context.getString(R.string.first_name), value = contact.firstName)
-        DetailItem(label = context.getString(R.string.last_name), value = contact.lastName)
+        if (contact.lastName != "") {
+            DetailItem(label = context.getString(R.string.last_name), value = contact.lastName)
+        }
         DetailItem(label = context.getString(R.string.phone_number), value = contact.phoneNumber)
-        DetailItem(label = "Note", value = contact.note)
+        if (contact.note != "") {
+            DetailItem(label = "Note", value = contact.note)
+        }
         if (contact.birthDate != null) {
             DetailItem(label = context.getString(R.string.birth_date), value = convertTimestampToDate(contact.birthDate))
         }

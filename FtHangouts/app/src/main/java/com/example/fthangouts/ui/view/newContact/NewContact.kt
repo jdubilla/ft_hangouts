@@ -62,7 +62,6 @@ fun NewContact(
     }
     if (user != null) {
         if (user.birthDate?.toInt() != 0) {
-            println(user)
             datePickerState = rememberDatePickerState(user.birthDate)
         }
     }
@@ -97,7 +96,7 @@ fun NewContact(
             phoneNumberChanged = { vm.phoneNumberChanged(it) },
             isError = state.isError
         )
-        NoteInput(note = state.note, noteChanged = { vm.noteChanged(it) }, isError = state.isError)
+        NoteInput(note = state.note, noteChanged = { vm.noteChanged(it) })
         BirthDatePicker(datePickerState = datePickerState)
         Button(onClick = {
             if (!createContactError()) {
