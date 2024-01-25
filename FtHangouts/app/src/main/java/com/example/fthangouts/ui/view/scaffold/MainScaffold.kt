@@ -35,7 +35,7 @@ fun MainScaffold() {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
     var elapsedTime by remember { mutableLongStateOf(0L) }
-    var textElapsedTime = context.getString(R.string.last_visit)
+    val textElapsedTime = context.getString(R.string.last_visit)
 
     LaunchedEffect(true) {
         while (true) {
@@ -88,11 +88,16 @@ fun MainScaffold() {
             AppBar(
                 navController = navController,
                 screens = currentScreen,
-                currentRoute = backStackEntry?.destination?.route
+                currentRoute = backStackEntry?.destination?.route,
+                backStackEntry = backStackEntry
             )
         },
         content = { paddingValues ->
-            NavHostController(paddingValues, navController, dbConnection, backStackEntry)
+            NavHostController(paddingValues,
+                navController,
+                dbConnection,
+                backStackEntry
+            )
         },
         bottomBar = {
             BottomBar(

@@ -104,8 +104,27 @@ class DatabaseHelper(context: Context) :
         return user
     }
 
+    @SuppressLint("Range", "Recycle")
+    fun getUserByPhoneNumber(phoneNumber: String): User? {
+        var user: User? = null
+        val selectQuery = "SELECT * FROM $TABLE_NAME WHERE phone_number = ?"
+        val cursor = database?.rawQuery(selectQuery, arrayOf(phoneNumber))
+
+        if (cursor != null && cursor.moveToFirst()) {
+            user = User(
+                cursor.getString(cursor.getColumnIndex(COLUMN_FIRST_NAME)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_LAST_NAME)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_PHONE_NUMBER)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_NOTE)),
+                cursor.getString(cursor.getColumnIndex(COLUMN_PHOTO)),
+                cursor.getLong(cursor.getColumnIndex(COLUMN_BIRTH_DATE)),
+                cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
+            )
+        }
+        return user
+    }
+
     fun updateUser(user: User) {
-//        println(user)
         val values = ContentValues().apply {
             put(COLUMN_FIRST_NAME, user.firstName)
             put(COLUMN_LAST_NAME, user.lastName)

@@ -18,6 +18,7 @@ import com.example.fthangouts.ui.view.Permissions
 import com.example.fthangouts.ui.view.conversationsList.ConversationsList
 import com.example.fthangouts.ui.view.detailsContact.DetailsContact
 import com.example.fthangouts.ui.view.newContact.NewContact
+import kotlinx.coroutines.delay
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -25,7 +26,7 @@ fun NavHostController(
     paddingValues: PaddingValues,
     navController: NavHostController,
     dbConnection: DatabaseHelper,
-    backStackEntry: NavBackStackEntry?
+    backStackEntry: NavBackStackEntry?,
 ) {
     NavHost(
         navController = navController,
@@ -47,8 +48,9 @@ fun NavHostController(
             )
         }
         composable("MessageThread/{phoneNumber}") {
-            val phoneNumber = backStackEntry?.arguments?.getString("phoneNumber")
-            phoneNumber?.let { phone ->
+            val paramPhoneNumber = backStackEntry?.arguments?.getString("phoneNumber")
+
+            paramPhoneNumber?.let { phone ->
                 MessageThread(phone)
             }
         }
