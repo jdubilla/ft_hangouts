@@ -31,6 +31,6 @@
     <string name="new_contact">Nouveau contact</string>
 
     //SmsTextField.kt
-    <string name="text_message">Entre votre message</string>
+    <string name="text_message">Entrez votre message</string>
 
 </resources>

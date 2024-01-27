@@ -1,5 +1,6 @@
 package com.example.fthangouts.viewModel
 
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import com.example.fthangouts.ui.uiState.NewContactState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +27,20 @@ class NewContactViewModel : ViewModel() {
     }
 
     fun phoneNumberChanged(newValue: String) {
-        _uiState.update { it.copy(phoneNumber = newValue) }
+        val regex = Regex("^[0-9]+$")
+        var phoneNumber = newValue
+
+        if (newValue.isNotEmpty() && newValue[0] == '+') {
+            phoneNumber = newValue.substring(1)
+
+            if (newValue.count() == 1) {
+                _uiState.update { it.copy(phoneNumber = newValue) }
+            }
+        }
+
+        if (phoneNumber.matches(regex) || newValue.isEmpty()) {
+            _uiState.update { it.copy(phoneNumber = newValue) }
+        }
     }
 
     fun noteChanged(newValue: String) {

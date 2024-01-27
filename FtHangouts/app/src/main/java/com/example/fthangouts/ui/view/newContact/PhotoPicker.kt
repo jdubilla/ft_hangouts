@@ -13,7 +13,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -33,7 +32,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -107,17 +105,16 @@ fun PhotoPicker(onImageSelected: (String) -> Unit, user: User?) {
         }
     )
 
-    Box(
-        modifier = Modifier
-            .height(100.dp)
-            .width(100.dp),
-    ) {
+    Box {
         Surface(
             shadowElevation = 8.dp,
             shape = CircleShape,
             onClick = {
                 imageLauncher.launch(type)
-            }
+            },
+            modifier = Modifier
+                .height(100.dp)
+                .width(100.dp),
         ) {
             if (imageUri != null) {
                 Image(
@@ -136,21 +133,17 @@ fun PhotoPicker(onImageSelected: (String) -> Unit, user: User?) {
                     onClick = {
                         imageUri = null
                         onImageSelected("")
-                    },
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = null,
                         modifier = Modifier
-                            .width(25.dp)
-                            .height(35.dp)
-//                            .padding(10.dp)
-//                            .align(Alignment.BottomEnd)
+                            .align(Alignment.BottomCenter)
+                            .clip(CircleShape)
+                            .background(Color.LightGray)
                     )
                 }
-
             } else {
                 Icon(
                     imageVector = Icons.Default.Add,

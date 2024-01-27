@@ -75,11 +75,4 @@ dependencies {
 
     // Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.31.5-beta")
-
-    //ROOM
-//    implementation("androidx.room:room-runtime:2.6.1")
-//    annotationProcessor("androidx.room:room-compiler:2.6.1")
-
-    //VIEW MODEL & LIVE DATA
-//    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 }

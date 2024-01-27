@@ -41,10 +41,9 @@ fun ConversationsList(navController: NavController, dbConnection: DatabaseHelper
 
     LaunchedEffect(key1 = Unit) {
         while (true) {
-            val newMessagesInbox = smsHelper.getAllMessages(context)
+            val newMessagesInbox = smsHelper.getAllMessages(context).sortedByDescending { it.date }
 
             if (allMessages.size != newMessagesInbox.size) {
-                println("NEW Message")
                 for (message in newMessagesInbox) {
                     if (!dbConnection.phoneNumberIsRegister(message.sender)) {
                         dbConnection.addUser(
@@ -61,7 +60,6 @@ fun ConversationsList(navController: NavController, dbConnection: DatabaseHelper
                     }
                 }
                 allMessages = newMessagesInbox
-
                 uniqueMessages = newMessagesInbox.distinctBy { it.sender }
             }
             delay(1000)
@@ -82,8 +80,6 @@ fun ConversationsList(navController: NavController, dbConnection: DatabaseHelper
             )
         }
     } else {
-
-
         LazyColumn(
             modifier = Modifier
                 .padding(start = 5.dp, end = 5.dp),
