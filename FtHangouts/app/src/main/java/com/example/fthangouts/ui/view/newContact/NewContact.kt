@@ -49,7 +49,7 @@ fun NewContact(
 
 
     fun createContactError(): Boolean {
-        return state.firstName.isEmpty() || state.phoneNumber.isEmpty()
+        return state.firstName.isEmpty() || state.firstName.isBlank() || state.phoneNumber.isEmpty()
     }
 
     if (user != null && firstLoad) {

@@ -48,7 +48,7 @@ fun GeneralUserInfos(
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next
                 ),
-                isError = isError && firstName.isEmpty()
+                isError = isError && (firstName.isEmpty() || firstName.isBlank())
             )
             OutlinedTextField(
                 value = lastName,
