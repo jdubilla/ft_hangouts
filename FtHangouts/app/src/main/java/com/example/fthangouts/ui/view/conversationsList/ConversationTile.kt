@@ -22,6 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.fthangouts.helper.loadImageFromInternalStorage
 import com.example.fthangouts.model.SMSMessage
@@ -48,7 +49,8 @@ fun ConversationTile(
             headlineContent = {
                 Text(
                     text = if (contact.isNotEmpty()) contact.first().firstName else conversation.sender,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp
                 )
             },
             supportingContent = {
