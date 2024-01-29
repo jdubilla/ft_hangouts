@@ -47,4 +47,6 @@ Le projet ft_hangouts est une application de gestion de contacts développée en
 
 - Vidéo du projet :
 
-  A Venir...
+https://github.com/jdubilla/ft_hangouts/assets/86416832/ff9f5f1f-80ce-42cf-b601-f27074215ca0
+
+
